@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
 
@@ -11,6 +12,10 @@ void chrono_timer_reset(ChronoTimer *timer) {
 	timespec_get(&timer->begin, TIME_UTC);
 }
 
+static void print_ftime(uint64_t dt, char *buf) {
+	fprintf(stderr, "chrono(%s): %lu\n", buf, dt / 1000);
+}
+
 uint64_t chrono_timer_finish(ChronoTimer *timer) {
 	struct timespec end;
 	timespec_get(&end, TIME_UTC);
@@ -20,6 +25,11 @@ uint64_t chrono_timer_finish(ChronoTimer *timer) {
 	long dt = (end.tv_sec - timer->begin.tv_sec) * E9 +
 		end.tv_nsec - timer->begin.tv_nsec;
 	return (uint64_t)dt;
+}
+
+void chrono_timer_print(ChronoTimer *timer, char *buf) {
+	uint64_t dt = chrono_timer_finish(timer);
+	print_ftime(dt, buf);
 }
 
 void chrono_sleep(uint64_t t) {

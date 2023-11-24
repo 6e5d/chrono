@@ -10,4 +10,5 @@ typedef struct {
 
 void chrono_timer_reset(ChronoTimer *timer);
 uint64_t chrono_timer_finish(ChronoTimer *timer);
+void chrono_timer_print(ChronoTimer *timer, char *buf);
 void chrono_sleep(uint64_t t);
