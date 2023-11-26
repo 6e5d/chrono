@@ -19,9 +19,10 @@ static void print_ftime(uint64_t dt, char *buf) {
 uint64_t chrono_timer_finish(ChronoTimer *timer) {
 	struct timespec end;
 	timespec_get(&end, TIME_UTC);
-	assert(timer->begin.tv_sec < end.tv_sec ||
+	// make sure time does not go back
+	assert(timer->begin.tv_sec < end.tv_sec || (
 		timer->begin.tv_sec == end.tv_sec &&
-		timer->begin.tv_nsec <= end.tv_nsec);
+		timer->begin.tv_nsec <= end.tv_nsec));
 	long dt = (end.tv_sec - timer->begin.tv_sec) * E9 +
 		end.tv_nsec - timer->begin.tv_nsec;
 	return (uint64_t)dt;
