@@ -1,7 +1,6 @@
-#ifndef INCLUDEGUARD_CHRONO_CHRONOH
-#define INCLUDEGUARD_CHRONO_CHRONOH
+#ifndef INCLUDEGUARD_CHRONO
+#define INCLUDEGUARD_CHRONO
 
-#include <stdint.h>
 #include <time.h>
 #include <sys/time.h>
 

@@ -1,8 +1,3 @@
-#include <assert.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <time.h>
-
 #include "../include/chrono.h"
 
 static const long E9 = 1000000000;
