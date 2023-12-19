@@ -1,6 +1,7 @@
 #include "../include/chrono.h"
+#define e9 1000000000
 
-static const long E9 = 1000000000;
+typedef struct timespec StdTimespec;
 
 void chrono_timer_reset(ChronoTimer *timer) {
 	clock_gettime(CLOCK_REALTIME, &timer->begin);
@@ -11,13 +12,13 @@ static void print_ftime(uint64_t dt, char *buf) {
 }
 
 uint64_t chrono_timer_finish(ChronoTimer *timer) {
-	struct timespec end;
+	StdTimespec end;
 	clock_gettime(CLOCK_REALTIME, &end);
 	// make sure time does not go back
 	assert(timer->begin.tv_sec < end.tv_sec || (
 		timer->begin.tv_sec == end.tv_sec &&
 		timer->begin.tv_nsec <= end.tv_nsec));
-	long dt = (end.tv_sec - timer->begin.tv_sec) * E9 +
+	long dt = (end.tv_sec - timer->begin.tv_sec) * e9 +
 		end.tv_nsec - timer->begin.tv_nsec;
 	return (uint64_t)dt;
 }
@@ -29,9 +30,9 @@ void chrono_timer_print(ChronoTimer *timer, char *buf) {
 
 void chrono_sleep(uint64_t t) {
 	long t2 = (long)t;
-	struct timespec ts = {
-		.tv_sec = t2 / E9,
-		.tv_nsec = t2 % E9,
+	StdTimespec ts = {
+		.tv_sec = t2 / e9,
+		.tv_nsec = t2 % e9,
 	};
 	nanosleep(&ts, 0);
 }
