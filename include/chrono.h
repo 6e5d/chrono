@@ -1,11 +1,12 @@
 #ifndef INCLUDEGUARD_CHRONO
 #define INCLUDEGUARD_CHRONO
+#define StdTimespec struct timespec
 
 #include <time.h>
 #include <sys/time.h>
 
 typedef struct {
-struct timespec begin;
+StdTimespec begin;
 } ChronoTimer;
 
 void chrono_timer_reset(ChronoTimer *timer);

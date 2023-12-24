@@ -1,6 +1,5 @@
 #include "../include/chrono.h"
 #define e9 1000000000
-#define StdTimespec struct timespec
 
 void chrono_timer_reset(ChronoTimer *timer) {
 	clock_gettime(CLOCK_REALTIME, &timer->begin);
