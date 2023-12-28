@@ -1,21 +1,15 @@
 #ifndef INCLUDEGUARD_CHRONO
 #define INCLUDEGUARD_CHRONO
-
+#define StdTimespec timespec
 #include <time.h>
-#include <sys/time.h>
-#define StdTimespec struct timespec
-#define NS_NAME(symbol) com_6e5d_chrono_##symbol
-#define NS_TYPE(symbol) Com_6e5dChrono##symbol
 
 typedef struct {
-	StdTimespec begin;
-} NS_TYPE(Timer);
+	struct StdTimespec begin;
+} Chrono(Timer);
 
-void NS_NAME(timer_reset)(NS_TYPE(Timer) *timer);
-uint64_t NS_NAME(timer_finish)(NS_TYPE(Timer) *timer);
-void NS_NAME(timer_print)(NS_TYPE(Timer) *timer, char *buf);
-void NS_NAME(sleep)(uint64_t t);
+void chrono(timer_reset)(Chrono(Timer) *timer);
+uint64_t chrono(timer_finish)(Chrono(Timer) *timer);
+void chrono(timer_print)(Chrono(Timer) *timer, char *buf);
+void chrono(sleep)(uint64_t t);
 
-#undef NS_TYPE
-#undef NS_NAME
 #endif

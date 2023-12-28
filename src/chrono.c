@@ -1,10 +1,8 @@
 #include "../include/chrono.h"
 #define e9 1000000000
 #define libc_clock_realtime CLOCK_REALTIME
-#define NS_NAME(symbol) com_6e5d_chrono_##symbol
-#define NS_TYPE(symbol) Com_6e5dChrono##symbol
 
-void NS_NAME(timer_reset)(NS_TYPE(Timer) *timer) {
+void chrono(timer_reset)(Chrono(Timer) *timer) {
 	clock_gettime(libc_clock_realtime, &timer->begin);
 }
 
@@ -12,8 +10,8 @@ static void print_ftime(uint64_t dt, char *buf) {
 	fprintf(stderr, "chrono(%s): %lu\n", buf, dt / 1000);
 }
 
-uint64_t NS_NAME(timer_finish)(NS_TYPE(Timer) *timer) {
-	StdTimespec end;
+uint64_t chrono(timer_finish)(Chrono(Timer) *timer) {
+	struct StdTimespec end;
 	clock_gettime(libc_clock_realtime, &end);
 	// make sure time does not go back
 	assert(timer->begin.tv_sec < end.tv_sec || (
@@ -24,19 +22,16 @@ uint64_t NS_NAME(timer_finish)(NS_TYPE(Timer) *timer) {
 	return (uint64_t)dt;
 }
 
-void NS_NAME(timer_print)(NS_TYPE(Timer) *timer, char *buf) {
-	uint64_t dt = NS_NAME(timer_finish)(timer);
+void chrono(timer_print)(Chrono(Timer) *timer, char *buf) {
+	uint64_t dt = chrono(timer_finish)(timer);
 	print_ftime(dt, buf);
 }
 
-void NS_NAME(sleep)(uint64_t t) {
+void chrono(sleep)(uint64_t t) {
 	long t2 = (long)t;
-	StdTimespec ts = {
+	struct StdTimespec ts = {
 		.tv_sec = t2 / e9,
 		.tv_nsec = t2 % e9,
 	};
 	nanosleep(&ts, 0);
 }
-
-#undef NS_TYPE
-#undef NS_NAME
