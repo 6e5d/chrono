@@ -1,9 +1,8 @@
 #include "../include/chrono.h"
 #define e9 1000000000
-#define libc_clock_realtime CLOCK_REALTIME
 
 void chrono(timer_reset)(Chrono(Timer) *timer) {
-	clock_gettime(libc_clock_realtime, &timer->begin);
+	clock_gettime(CLOCK_REALTIME, &timer->begin);
 }
 
 static void print_ftime(uint64_t dt, char *buf) {
@@ -12,7 +11,7 @@ static void print_ftime(uint64_t dt, char *buf) {
 
 uint64_t chrono(timer_finish)(Chrono(Timer) *timer) {
 	struct StdTimespec end;
-	clock_gettime(libc_clock_realtime, &end);
+	clock_gettime(CLOCK_REALTIME, &end);
 	// make sure time does not go back
 	assert(timer->begin.tv_sec < end.tv_sec || (
 		timer->begin.tv_sec == end.tv_sec &&
